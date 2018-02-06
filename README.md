@@ -1,2 +1,2 @@
 # puremug.github.io
-simple site
+my simple site
