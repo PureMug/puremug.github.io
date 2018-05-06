@@ -1,1 +1,6 @@
+title: Pure MUG
+lang: zh_CN
+description: 个人记录
 theme: jekyll-theme-architect
+google_analytics:
+baseurl: /
