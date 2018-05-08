@@ -9,4 +9,4 @@ date: 2018-05-08
 - {{ post.date | date_to_string }} [{{ post.title }}]({{ site.baseurl }}{{ post.url }})
 {% endfor %}
 
-> *更新于： {{ page.date | date_to_string }}*
+*更新于： {{ page.date | date_to_string }}*
