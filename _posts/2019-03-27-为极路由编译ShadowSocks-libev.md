@@ -77,7 +77,7 @@ make package/shadowsocks-libev/compile V=99
 ```json
 {
 	"server": "myserver",
-	"server_port": [myserverport]],
+	"server_port": [myserverport],
 	"local_address": "192.168.199.1",
 	"local_port": 1080,
 	"password": "secret key",
@@ -93,5 +93,32 @@ ss-local -c /etc/ss-local.conf -a nobody
 手机WiFi高级设置以及电脑浏览器中可均配置pac文件动态代理，缺点是只能支持浏览器。  
 pac文件可以用genpac脚本生成，此处不详述，生成的pac文件可以上传到路由器/www下，通过http://192.168.199.1/ss.pac (假设文件名为ss.pac)访问。
 
-# 6. 透明代理
+# 6. 自动启动
+新建脚本 /etc/init.d/sslocal  
+```bash	
+#!/bin/sh /etc/rc.common
+ 
+START=99
+ 
+SERVICE_USE_PID=1
+SERVICE_WRITE_PID=1
+SERVICE_DAEMONIZE=1
+SERVICE_PID_FILE=/var/run/ss-local.pid
+CONFIG=/etc/ss-local.json
+RUNAS=nobody
+ 
+start() {
+	service_start /usr/bin/ss-local -c $CONFIG -a $RUNAS -f $SERVICE_PID_FILE
+}
+
+stop() {
+	service_stop /usr/bin/ss-local
+}
+```  
+增加执行权限： `chmod +x /etc/init.d/sslocal`  
+启用自动启动： `/etc/init.d/sslocal enable`  
+启动： `/etc/init.d/sslocal start`  
+停止： `/etc/init.d/sslocal stop`  
+
+# 7. 透明代理
 socks代理使用还是不太方便，考虑使用透明代理（ss-redir），待研究。
